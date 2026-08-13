@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// brand/cat/avail ficam como String (validados por Zod na borda da API), não enum de banco:
+// o prompt pede "brand" extensível, e manter os três campos consistentes evita migration
+// toda vez que uma marca ou categoria nova aparecer.
+model Product {
+  id        String      @id @default(uuid())
+  brand     String
+  name      String
+  cat       String
+  desc      String      @default("")
+  price     Int
+  avail     String
+  img       String      @default("")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  stock     StockItem[]
+
+  @@map("products")
+}
+
+// Uma linha por numeração (36..45) e produto. O par (productId, size) é único, o que permite
+// o UPDATE atômico `qty = qty + $delta` usado pelo endpoint de estoque.
+model StockItem {
+  id        String  @id @default(uuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  size      String
+  qty       Int     @default(0)
+
+  @@unique([productId, size])
+  @@map("stock_items")
+}
+
+// Linha única (id fixo 1) com as configurações da loja.
+model Settings {
+  id    Int    @id @default(1)
+  phone String
+
+  @@map("settings")
+}
+
+// Sem cadastro público — só via `npm run create-admin`.
+model AdminUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  @@map("admin_users")
+}

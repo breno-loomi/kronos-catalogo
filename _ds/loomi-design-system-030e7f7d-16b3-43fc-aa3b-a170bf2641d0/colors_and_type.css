@@ -1,0 +1,287 @@
+/* ============================================================
+   LOOMI — Colors & Type Tokens
+   ============================================================
+   Sourced from the Loomi Design System Figma file.
+   "A identidade da Loomi é jovem e usa cortes fortes — o roxo,
+    o rosa, o lilás —, mas com sobriedade. Majoritariamente, as
+    cores sempre estão sobrepostas a branco ou preto."
+   ============================================================ */
+
+/* ---------- Fonts ---------- */
+@font-face {
+  font-family: "Sora";
+  src: url("./fonts/Sora-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sora";
+  src: url("./fonts/Sora-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sora";
+  src: url("./fonts/Sora-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sora";
+  src: url("./fonts/Sora-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sora";
+  src: url("./fonts/Sora-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sora";
+  src: url("./fonts/Sora-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-display: swap;
+}
+
+:root {
+  /* ----------------------------------------------------------
+     PRIMARY BRAND COLORS
+     The three "cuts" of the Loomi identity. Always paired
+     with neutral black or white — never with each other as a
+     dominant background combination.
+     ---------------------------------------------------------- */
+  --loomi-purple: rgb(80, 20, 186);   /* #5014BA — primary purple */
+  --loomi-pink:   rgb(246, 59, 183);  /* #F63BB7 — primary pink   */
+  --loomi-lilac:  rgb(193, 58, 255);  /* #C13AFF — primary lilac  */
+  --loomi-luxus:  rgb(178, 23, 140);  /* #B2178C — print/premium  */
+
+  /* ----------------------------------------------------------
+     PURPLE SCALE (5 steps, dark → light)
+     ---------------------------------------------------------- */
+  --purple-1: rgb(38, 0, 105);    /* #260069 */
+  --purple-2: rgb(60, 16, 148);   /* #3C1094 */
+  --purple-3: rgb(80, 20, 186);   /* #5014BA — primary */
+  --purple-4: rgb(166, 133, 226); /* #A685E2 */
+  --purple-5: rgb(220, 209, 240); /* #DCD1F0 */
+
+  /* ----------------------------------------------------------
+     LILAC SCALE
+     ---------------------------------------------------------- */
+  --lilac-1: rgb(74, 20, 110);    /* #4A146E */
+  --lilac-2: rgb(150, 40, 175);   /* #9628AF */
+  --lilac-3: rgb(193, 58, 255);   /* #C13AFF — primary */
+  --lilac-4: rgb(213, 158, 242);  /* #D59EF2 */
+  --lilac-5: rgb(240, 220, 250);  /* #F0DCFA */
+
+  /* ----------------------------------------------------------
+     PINK SCALE
+     ---------------------------------------------------------- */
+  --pink-1: rgb(112, 22, 78);     /* #70164E */
+  --pink-2: rgb(178, 23, 140);    /* #B2178C — luxus */
+  --pink-3: rgb(246, 59, 183);    /* #F63BB7 — primary */
+  --pink-4: rgb(248, 150, 200);   /* #F896C8 */
+  --pink-5: rgb(252, 215, 232);   /* #FCD7E8 */
+
+  /* ----------------------------------------------------------
+     NEUTRAL — DARK MODE
+     Background goes dark→darker; foreground inverts to lights.
+     ---------------------------------------------------------- */
+  --bg-d-1: rgb(12, 9, 18);       /* #0C0912 — primary dark bg */
+  --bg-d-2: rgb(20, 16, 28);
+  --bg-d-3: rgb(30, 30, 30);
+  --bg-d-4: rgb(45, 45, 50);
+
+  --fg-d-1: rgb(248, 248, 248);   /* #F8F8F8 — primary fg on dark */
+  --fg-d-2: rgb(160, 160, 168);
+  --fg-d-3: rgb(82, 75, 98);      /* #524B62 */
+
+  /* ----------------------------------------------------------
+     NEUTRAL — LIGHT MODE
+     ---------------------------------------------------------- */
+  --bg-l-1: rgb(255, 255, 255);   /* white */
+  --bg-l-2: rgb(248, 248, 248);   /* #F8F8F8 */
+  --bg-l-3: rgb(224, 224, 228);
+  --bg-l-4: rgb(160, 160, 168);
+  --bg-l-5: rgb(60, 60, 64);
+
+  --fg-l-1: rgb(12, 9, 18);       /* same #0C0912 — primary fg on light */
+  --fg-l-2: rgb(82, 75, 98);
+  --fg-l-3: rgb(160, 160, 168);
+
+  /* ----------------------------------------------------------
+     SEMANTIC TOKENS (default = dark mode, the brand's home)
+     ---------------------------------------------------------- */
+  --bg:         var(--bg-d-1);
+  --bg-elev:    var(--bg-d-2);
+  --bg-muted:   var(--bg-d-3);
+  --fg:         var(--fg-d-1);
+  --fg-muted:   var(--fg-d-2);
+  --fg-subtle:  var(--fg-d-3);
+
+  --accent:        var(--loomi-purple);
+  --accent-hot:    var(--loomi-pink);
+  --accent-bright: var(--loomi-lilac);
+
+  --border:        rgba(248, 248, 248, 0.20);
+  --border-strong: rgba(248, 248, 248, 0.50);
+  --overlay:       rgba(255, 255, 255, 0.04);
+
+  /* ----------------------------------------------------------
+     TYPE — family
+     "A família tipográfica da Loomi consiste em uma única fonte. A Sora."
+     ---------------------------------------------------------- */
+  --font-sans: "Sora", ui-sans-serif, system-ui, -apple-system,
+               "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ---- weights ---- */
+  --w-thin:        100; /* @kind font */
+  --w-extralight:  200; /* @kind font */  /* used in display headings */
+  --w-light:       300; /* @kind font */  /* DEFAULT — Loomi's core weight */
+  --w-regular:     400; /* @kind font */
+  --w-medium:      500; /* @kind font */
+  --w-semibold:    600; /* @kind font */
+  --w-extrabold:   800; /* @kind font */
+
+  /* ---- type scale (px from Figma) ---- */
+  --fs-hero:    150px;   /* Tacabixiga 1 */
+  --fs-mega:    132px;   /* Tacabixiga 2 */
+  --fs-d1:      106px;   /* Display 1 */
+  --fs-d2:       85px;   /* Display 2 */
+  --fs-h1:       64px;
+  --fs-h2:       56px;
+  --fs-h3:       48px;
+  --fs-h4:       40px;   /* Section titles in DS pages */
+  --fs-h5:       32px;
+  --fs-h6:       24px;   /* Body large / paragraph */
+  --fs-body:     20px;   /* Default body / labels */
+  --fs-small:    16px;
+  --fs-caption:  14px;
+
+  --lh-tight:   1.0; /* @kind font */
+  --lh-snug:    1.15; /* @kind font */
+  --lh-display: 1.20; /* @kind font */
+  --lh-body:    1.46; /* @kind font */    /* 35px / 24px from Figma */
+  --lh-flat:    1.0; /* @kind font */
+
+  /* ---- letter spacing ---- */
+  --tracking-tight:    -0.030em;  /* DEFAULT for all display + body */
+  --tracking-normal:    0em;
+  --tracking-wide:      0.200em;  /* eyebrow labels — UPPERCASE */
+
+  /* ----------------------------------------------------------
+     RADII
+     ---------------------------------------------------------- */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;     /* cards */
+  --radius-xl: 30px;     /* hero panels */
+  --radius-pill: 999px;  /* tags, chips */
+
+  /* ----------------------------------------------------------
+     SHADOWS / GLOW
+     ---------------------------------------------------------- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.50);
+  --glow-purple: 0 0 60px rgba(80, 20, 186, 0.55);
+  --glow-pink:   0 0 60px rgba(246, 59, 183, 0.45);
+  --glow-lilac:  0 0 60px rgba(193, 58, 255, 0.45);
+
+  /* ----------------------------------------------------------
+     SPACING (8-pt with 4 / 10 / 20 / 60 / 80 stops from Figma)
+     ---------------------------------------------------------- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  30px;
+  --space-7:  40px;
+  --space-8:  60px;
+  --space-9:  80px;
+  --space-10: 120px;
+
+  /* glassmorphism helper (key brand element — see Base Conceitual) */
+  --glass-blur: 32px; /* @kind other */
+  --glass-bg:   rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.16);
+}
+
+/* ============================================================
+   SEMANTIC ELEMENT STYLES
+   These are intentional defaults you can apply inside a
+   .loomi-prose container without scoping every tag globally.
+   ============================================================ */
+.loomi {
+  font-family: var(--font-sans);
+  color: var(--fg);
+  background: var(--bg);
+  font-weight: var(--w-light);
+  letter-spacing: var(--tracking-tight);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.loomi-hero,
+.t-hero {
+  font-family: var(--font-sans);
+  font-weight: var(--w-thin);
+  font-size: var(--fs-hero);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg);
+}
+
+.t-display-1 { font-family: var(--font-sans); font-weight: var(--w-thin);       font-size: var(--fs-d1); line-height: var(--lh-display); letter-spacing: var(--tracking-tight); }
+.t-display-2 { font-family: var(--font-sans); font-weight: var(--w-thin);       font-size: var(--fs-d2); line-height: var(--lh-display); letter-spacing: var(--tracking-tight); }
+
+.t-h1 { font-family: var(--font-sans); font-weight: var(--w-extralight); font-size: var(--fs-h1); line-height: var(--lh-display); letter-spacing: var(--tracking-tight); }
+.t-h2 { font-family: var(--font-sans); font-weight: var(--w-extralight); font-size: var(--fs-h2); line-height: var(--lh-display); letter-spacing: var(--tracking-tight); }
+.t-h3 { font-family: var(--font-sans); font-weight: var(--w-light);      font-size: var(--fs-h3); line-height: var(--lh-display); letter-spacing: var(--tracking-tight); }
+.t-h4 { font-family: var(--font-sans); font-weight: var(--w-light);      font-size: var(--fs-h4); line-height: var(--lh-flat);    letter-spacing: var(--tracking-tight); }
+.t-h5 { font-family: var(--font-sans); font-weight: var(--w-light);      font-size: var(--fs-h5); line-height: var(--lh-snug);    letter-spacing: var(--tracking-tight); }
+
+.t-body-l { font-family: var(--font-sans); font-weight: var(--w-light); font-size: var(--fs-h6);    line-height: var(--lh-body); letter-spacing: var(--tracking-tight); }
+.t-body   { font-family: var(--font-sans); font-weight: var(--w-light); font-size: var(--fs-body);  line-height: var(--lh-body); letter-spacing: var(--tracking-tight); }
+.t-small  { font-family: var(--font-sans); font-weight: var(--w-light); font-size: var(--fs-small); line-height: var(--lh-body); letter-spacing: var(--tracking-tight); }
+
+/* Eyebrow / overline / tag — UPPERCASE, wide-tracked */
+.t-eyebrow {
+  font-family: var(--font-sans);
+  font-weight: var(--w-light);
+  font-size: var(--fs-body);
+  line-height: var(--lh-flat);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.t-eyebrow--muted { color: rgba(248, 248, 248, 0.50); }
+
+.t-caption {
+  font-family: var(--font-sans);
+  font-weight: var(--w-light);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* Loomi button / tag base */
+.loomi-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  font: var(--w-light) var(--fs-small)/1 var(--font-sans);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+.loomi-tag--solid   { background: var(--fg); color: var(--bg); }
+.loomi-tag--outline { background: transparent; color: var(--fg); border: 1px solid var(--border-strong); }
+
+/* Selection */
+::selection { background: var(--loomi-pink); color: var(--bg-d-1); }

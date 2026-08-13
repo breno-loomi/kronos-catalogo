@@ -1,0 +1,286 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "loomi-design/preview/**",
+              "preview/**",
+              "tests/**",
+              "ui_kits/marketing/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Sora))/i]",
+        "message": "Font not provided by the design system. Available: Sora."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "ColorShowcase": {
+        "replaces": []
+      },
+      "Footer": {
+        "replaces": []
+      },
+      "Header": {
+        "replaces": []
+      },
+      "Hero": {
+        "replaces": []
+      },
+      "ManifestoCard": {
+        "replaces": []
+      },
+      "ProjectGrid": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--accent",
+      "--accent-bright",
+      "--accent-hot",
+      "--bg",
+      "--bg-d-1",
+      "--bg-d-2",
+      "--bg-d-3",
+      "--bg-d-4",
+      "--bg-elev",
+      "--bg-l-1",
+      "--bg-l-2",
+      "--bg-l-3",
+      "--bg-l-4",
+      "--bg-l-5",
+      "--bg-muted",
+      "--border",
+      "--border-strong",
+      "--fg",
+      "--fg-d-1",
+      "--fg-d-2",
+      "--fg-d-3",
+      "--fg-l-1",
+      "--fg-l-2",
+      "--fg-l-3",
+      "--fg-muted",
+      "--fg-subtle",
+      "--font-mono",
+      "--font-sans",
+      "--fs-body",
+      "--fs-caption",
+      "--fs-d1",
+      "--fs-d2",
+      "--fs-h1",
+      "--fs-h2",
+      "--fs-h3",
+      "--fs-h4",
+      "--fs-h5",
+      "--fs-h6",
+      "--fs-hero",
+      "--fs-mega",
+      "--fs-small",
+      "--glass-bg",
+      "--glass-blur",
+      "--glass-border",
+      "--glow-lilac",
+      "--glow-pink",
+      "--glow-purple",
+      "--lh-body",
+      "--lh-display",
+      "--lh-flat",
+      "--lh-snug",
+      "--lh-tight",
+      "--lilac-1",
+      "--lilac-2",
+      "--lilac-3",
+      "--lilac-4",
+      "--lilac-5",
+      "--loomi-lilac",
+      "--loomi-luxus",
+      "--loomi-pink",
+      "--loomi-purple",
+      "--overlay",
+      "--pink-1",
+      "--pink-2",
+      "--pink-3",
+      "--pink-4",
+      "--pink-5",
+      "--purple-1",
+      "--purple-2",
+      "--purple-3",
+      "--purple-4",
+      "--purple-5",
+      "--radius-lg",
+      "--radius-md",
+      "--radius-pill",
+      "--radius-sm",
+      "--radius-xl",
+      "--radius-xs",
+      "--shadow-lg",
+      "--shadow-md",
+      "--shadow-sm",
+      "--space-1",
+      "--space-10",
+      "--space-2",
+      "--space-3",
+      "--space-4",
+      "--space-5",
+      "--space-6",
+      "--space-7",
+      "--space-8",
+      "--space-9",
+      "--tracking-normal",
+      "--tracking-tight",
+      "--tracking-wide",
+      "--w-extrabold",
+      "--w-extralight",
+      "--w-light",
+      "--w-medium",
+      "--w-regular",
+      "--w-semibold",
+      "--w-thin"
+    ],
+    "tokenKinds": {
+      "--loomi-purple": "color",
+      "--loomi-pink": "color",
+      "--loomi-lilac": "color",
+      "--loomi-luxus": "color",
+      "--purple-1": "color",
+      "--purple-2": "color",
+      "--purple-3": "color",
+      "--purple-4": "color",
+      "--purple-5": "color",
+      "--lilac-1": "color",
+      "--lilac-2": "color",
+      "--lilac-3": "color",
+      "--lilac-4": "color",
+      "--lilac-5": "color",
+      "--pink-1": "color",
+      "--pink-2": "color",
+      "--pink-3": "color",
+      "--pink-4": "color",
+      "--pink-5": "color",
+      "--bg-d-1": "color",
+      "--bg-d-2": "color",
+      "--bg-d-3": "color",
+      "--bg-d-4": "color",
+      "--fg-d-1": "color",
+      "--fg-d-2": "color",
+      "--fg-d-3": "color",
+      "--bg-l-1": "color",
+      "--bg-l-2": "color",
+      "--bg-l-3": "color",
+      "--bg-l-4": "color",
+      "--bg-l-5": "color",
+      "--fg-l-1": "color",
+      "--fg-l-2": "color",
+      "--fg-l-3": "color",
+      "--bg": "color",
+      "--bg-elev": "shadow",
+      "--bg-muted": "color",
+      "--fg": "color",
+      "--fg-muted": "color",
+      "--fg-subtle": "color",
+      "--accent": "color",
+      "--accent-hot": "color",
+      "--accent-bright": "color",
+      "--border": "color",
+      "--border-strong": "color",
+      "--overlay": "color",
+      "--font-sans": "font",
+      "--font-mono": "font",
+      "--w-thin": "font",
+      "--w-extralight": "font",
+      "--w-light": "font",
+      "--w-regular": "font",
+      "--w-medium": "font",
+      "--w-semibold": "font",
+      "--w-extrabold": "font",
+      "--fs-hero": "spacing",
+      "--fs-mega": "spacing",
+      "--fs-d1": "spacing",
+      "--fs-d2": "spacing",
+      "--fs-h1": "spacing",
+      "--fs-h2": "spacing",
+      "--fs-h3": "spacing",
+      "--fs-h4": "spacing",
+      "--fs-h5": "spacing",
+      "--fs-h6": "spacing",
+      "--fs-body": "spacing",
+      "--fs-small": "spacing",
+      "--fs-caption": "spacing",
+      "--lh-tight": "font",
+      "--lh-snug": "font",
+      "--lh-display": "font",
+      "--lh-body": "font",
+      "--lh-flat": "font",
+      "--tracking-tight": "font",
+      "--tracking-normal": "font",
+      "--tracking-wide": "font",
+      "--radius-xs": "radius",
+      "--radius-sm": "radius",
+      "--radius-md": "radius",
+      "--radius-lg": "radius",
+      "--radius-xl": "radius",
+      "--radius-pill": "radius",
+      "--shadow-sm": "shadow",
+      "--shadow-md": "shadow",
+      "--shadow-lg": "shadow",
+      "--glow-purple": "shadow",
+      "--glow-pink": "shadow",
+      "--glow-lilac": "shadow",
+      "--space-1": "spacing",
+      "--space-2": "spacing",
+      "--space-3": "spacing",
+      "--space-4": "spacing",
+      "--space-5": "spacing",
+      "--space-6": "spacing",
+      "--space-7": "spacing",
+      "--space-8": "spacing",
+      "--space-9": "spacing",
+      "--space-10": "spacing",
+      "--glass-blur": "other",
+      "--glass-bg": "color",
+      "--glass-border": "color"
+    },
+    "fontFamilies": [
+      "Sora"
+    ]
+  }
+}

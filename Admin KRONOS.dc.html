@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/loomi-design-system-030e7f7d-16b3-43fc-aa3b-a170bf2641d0/colors_and_type.css">
+<link rel="stylesheet" href="_ds/loomi-design-system-030e7f7d-16b3-43fc-aa3b-a170bf2641d0/styles.css">
+<script src="_ds/loomi-design-system-030e7f7d-16b3-43fc-aa3b-a170bf2641d0/_ds_bundle.js"></script>
+<script src="./kronos-store.js"></script>
+<style>
+  html, body { margin:0; padding:0; background:#000; }
+  * { box-sizing:border-box; }
+  a { color:#FF2C2C; text-decoration:none; }
+  a:hover { color:#ff5c5c; }
+  input, select, button { font-family:Sora, sans-serif; }
+  input:focus, select:focus { outline:none; border-color:rgba(255,44,44,0.7) !important; }
+  ::selection { background:#FF2C2C; color:#000; }
+</style>
+</helmet>
+<div data-theme="dark" style="background:#000; color:#D3D3D3; font-family:Sora, sans-serif; min-height:100vh; padding:0 0 90px">
+
+  <sc-if value="{{ showLogin }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:50; background:rgba(0,0,0,0.92); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:20px">
+      <form onSubmit="{{ onLoginSubmit }}" style="display:flex; flex-direction:column; gap:18px; width:100%; max-width:340px; padding:34px 30px; border:1px solid rgba(211,211,211,0.18); border-radius:18px; background:#050505">
+        <div style="display:flex; flex-direction:column; gap:6px">
+          <span style="font-size:16px; font-weight:600; letter-spacing:0.14em; color:#F8F8F8">KRONOS</span>
+          <span style="font-size:11px; letter-spacing:0.08em; color:rgba(211,211,211,0.5)">Entrar no painel de estoque</span>
+        </div>
+        <label style="display:flex; flex-direction:column; gap:8px">
+          <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(211,211,211,0.55)">E-mail</span>
+          <input type="email" value="{{ loginEmail }}" onChange="{{ onLoginEmail }}" autocomplete="username" style="font-size:14px; font-weight:300; color:#F8F8F8; background:#0b0b0b; border:1px solid rgba(211,211,211,0.22); border-radius:8px; padding:13px 14px">
+        </label>
+        <label style="display:flex; flex-direction:column; gap:8px">
+          <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(211,211,211,0.55)">Senha</span>
+          <input type="password" value="{{ loginPassword }}" onChange="{{ onLoginPassword }}" autocomplete="current-password" style="font-size:14px; font-weight:300; color:#F8F8F8; background:#0b0b0b; border:1px solid rgba(211,211,211,0.22); border-radius:8px; padding:13px 14px">
+        </label>
+        <sc-if value="{{ loginError }}" hint-placeholder-val="{{ false }}">
+          <span style="font-size:12px; color:#FF2C2C">{{ loginError }}</span>
+        </sc-if>
+        <button type="submit" disabled="{{ loginBusy }}" style="font-size:13px; font-weight:500; letter-spacing:0.06em; color:#000; background:#FF2C2C; border:1px solid #FF2C2C; padding:14px 24px; border-radius:8px; cursor:pointer" style-hover="background:#ff4747">{{ loginButtonLabel }}</button>
+      </form>
+    </div>
+  </sc-if>
+
+  <header style="position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between; gap:30px; padding:22px 60px; background:rgba(0,0,0,0.78); backdrop-filter:blur(24px); border-bottom:1px solid rgba(211,211,211,0.12)">
+    <div style="display:flex; align-items:baseline; gap:12px">
+      <span style="font-size:18px; font-weight:600; letter-spacing:0.18em; color:#F8F8F8">KRONOS</span>
+      <span style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(211,211,211,0.45)">Painel de estoque</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:14px">
+      <span style="font-size:11px; letter-spacing:0.06em; color:rgba(211,211,211,0.45)">{{ savedLabel }}</span>
+      <a href="Catalogo KRONOS.dc.html" style="font-size:12px; letter-spacing:0.06em; color:#D3D3D3; border:1px solid rgba(211,211,211,0.24); padding:11px 20px; border-radius:6px" style-hover="border-color:rgba(211,211,211,0.6); color:#fff">Ver catálogo</a>
+      <button onClick="{{ onLogout }}" style="font-size:12px; letter-spacing:0.06em; color:rgba(211,211,211,0.6); background:transparent; border:1px solid rgba(211,211,211,0.2); padding:11px 20px; border-radius:6px; cursor:pointer" style-hover="color:#FF2C2C; border-color:rgba(255,44,44,0.6)">Sair</button>
+    </div>
+  </header>
+
+  <div style="padding:44px 60px 0; display:flex; flex-direction:column; gap:44px; max-width:1280px; margin:0 auto">
+
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(211,211,211,0.14); border:1px solid rgba(211,211,211,0.14); border-radius:12px; overflow:hidden">
+      <div style="background:#000; padding:24px 26px; display:flex; flex-direction:column; gap:7px">
+        <span style="font-size:28px; font-weight:200; color:#F8F8F8">{{ kpi.produtos }}</span>
+        <span style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(211,211,211,0.5)">Produtos</span>
+      </div>
+      <div style="background:#000; padding:24px 26px; display:flex; flex-direction:column; gap:7px">
+        <span style="font-size:28px; font-weight:200; color:#F8F8F8">{{ kpi.pares }}</span>
+        <span style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(211,211,211,0.5)">Pares em estoque</span>
+      </div>
+      <div style="background:#000; padding:24px 26px; display:flex; flex-direction:column; gap:7px">
+        <span style="font-size:28px; font-weight:200; color:#FF2C2C">{{ kpi.esgotados }}</span>
+        <span style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(211,211,211,0.5)">Sem estoque</span>
+      </div>
+      <div style="background:#000; padding:24px 26px; display:flex; flex-direction:column; gap:7px">
+        <span style="font-size:28px; font-weight:200; color:#F8F8F8">{{ kpi.encomenda }}</span>
+        <span style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(211,211,211,0.5)">Por encomenda</span>
+      </div>
+    </div>
+
+    <section style="display:flex; flex-direction:column; gap:22px">
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:30px">
+        <div style="display:flex; flex-direction:column; gap:10px">
+          <span style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:#FF2C2C">Novo produto</span>
+          <h2 style="margin:0; font-size:30px; font-weight:200; letter-spacing:-0.03em; color:#F8F8F8">Adicionar ao catálogo</h2>
+        </div>
+        <span style="font-size:12px; line-height:1.6; font-weight:300; color:rgba(211,211,211,0.5); max-width:340px; text-align:right">O link de WhatsApp do produto é gerado automaticamente com modelo, tamanho e valor.</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; padding:28px 30px; border:1px solid rgba(211,211,211,0.18); border-radius:20px; background:rgba(248,248,248,0.03)">
+        <label style="display:flex; flex-direction:column; gap:8px">
+          <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(211,211,211,0.55)">Marca</span>
+          <select value="{{ form.brand }}" onChange="{{ onBrand }}" style="font-size:14px; font-weight:300; color:#F8F8F8; background:#0b0b0b; border:1px solid rgba(211,211,211,0.22); border-radius:8px; padding:13px 12px">
+            <option value="Nike">Nike</option>
+            <option value="Adidas">Adidas</option>
+            <option value="New Balance">New Balance</option>
+            <option value="On Running">On Running</option>
+          </select>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:8px">
+          <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(211,211,211,0.55)">Modelo</span>
+          <input value="{{ form.name }}" onChange="{{ onName }}" placeholder="ex: Pegasus 41" style="font-size:14px; font-weight:300; color:#F8F8F8; background:#0b0b0b; border:1px solid rgba(211,211,211,0.22); border-radius:8px; padding:13px 12px">
+        </label>
+        <label style="display:flex; flex-direction:column; gap:8px">
+          <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(211,211,211,0.55)">Categoria</span>
+          <select value="{{ form.cat }}" onChange="{{ onCat }}" style="font-size:14px; font-weight:300; color:#F8F8F8; background:#0b0b0b; border:1px solid rgba(211,211,211,0.22); border-radius:8px; padding:13px 12px">
+            <option value="corrida">corrida</option>
+            <option value="treino">treino</option>
+            <option value="prova">prova</option>
+            <option value="trail">trail</option>
+            <option value="lifestyle">lifestyle</option>
+          </select>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:8px">
+          <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(211,211,211,0.55)">Preço (R$)</span>
+          <input value="{{ form.price }}" onChange="{{ onPrice }}" placeholder="899" style="font-size:14px; font-weight:300; color:#F8F8F8; background:#0b0b0b; border:1px solid rgba(211,211,211,0.22); border-radius:8px; padding:13px 12px">
+        </label>
+        <label style="display:flex; flex-direction:column; gap:8px; grid-column:span 2">
+          <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(211,211,211,0.55)">Descrição</span>
+          <input value="{{ form.desc }}" onChange="{{ onDesc }}" placeholder="Uma linha sobre a construção do tênis" style="font-size:14px; font-weight:300; color:#F8F8F8; background:#0b0b0b; border:1px solid rgba(211,211,211,0.22); border-radius:8px; padding:13px 12px">
+        </label>
+        <label style="display:flex; flex-direction:column; gap:8px">
+          <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(211,211,211,0.55)">Disponibilidade</span>
+          <select value="{{ form.avail }}" onChange="{{ onAvail }}" style="font-size:14px; font-weight:300; color:#F8F8F8; background:#0b0b0b; border:1px solid rgba(211,211,211,0.22); border-radius:8px; padding:13px 12px">
+            <option value="Pronta entrega">Pronta entrega</option>
+            <option value="Por encomenda">Por encomenda</option>
+          </select>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:8px">
+          <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(211,211,211,0.55)">Foto (caminho ou upload)</span>
+          <div style="display:flex; gap:8px">
+            <input value="{{ form.img }}" onChange="{{ onImg }}" placeholder="uploads/foto.jpeg" style="flex:1; min-width:0; font-size:14px; font-weight:300; color:#F8F8F8; background:#0b0b0b; border:1px solid rgba(211,211,211,0.22); border-radius:8px; padding:13px 12px">
+            <label style="flex:0 0 auto; display:flex; align-items:center; font-size:11px; letter-spacing:0.06em; color:#D3D3D3; background:transparent; border:1px solid rgba(211,211,211,0.24); padding:0 14px; border-radius:8px; cursor:pointer" style-hover="border-color:rgba(211,211,211,0.6); color:#fff">
+              {{ photoButtonLabel }}
+              <input type="file" accept="image/jpeg,image/png,image/webp" onChange="{{ onPhotoFile }}" style="display:none">
+            </label>
+          </div>
+        </label>
+
+        <div style="grid-column:span 4; display:flex; flex-direction:column; gap:12px; padding-top:6px">
+          <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(211,211,211,0.55)">Estoque inicial por numeração</span>
+          <div style="display:grid; grid-template-columns:repeat(10,1fr); gap:10px">
+            <sc-for list="{{ formSizes }}" as="s" hint-placeholder-count="10">
+              <div style="display:flex; flex-direction:column; gap:6px; align-items:center; border:1px solid rgba(211,211,211,0.18); border-radius:10px; padding:10px 6px">
+                <span style="font-size:11px; letter-spacing:0.08em; color:rgba(211,211,211,0.6)">{{ s.size }}</span>
+                <input value="{{ s.qty }}" onChange="{{ s.onChange }}" style="width:100%; text-align:center; font-size:14px; font-weight:300; color:#F8F8F8; background:#0b0b0b; border:1px solid rgba(211,211,211,0.18); border-radius:6px; padding:9px 4px">
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="grid-column:span 4; display:flex; flex-direction:column; gap:14px; padding-top:10px; border-top:1px solid rgba(211,211,211,0.14)">
+          <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(211,211,211,0.55)">Mensagem de WhatsApp gerada</span>
+          <p style="margin:0; font-size:13px; line-height:1.6; font-weight:300; color:#F8F8F8; background:#0b0b0b; border:1px solid rgba(211,211,211,0.18); border-radius:10px; padding:16px 18px">{{ previewMsg }}</p>
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:20px">
+            <span style="font-size:12px; font-weight:300; color:{{ statusColor }}">{{ status }}</span>
+            <div style="display:flex; gap:12px">
+              <button onClick="{{ resetForm }}" style="font-size:13px; letter-spacing:0.06em; color:#D3D3D3; background:transparent; border:1px solid rgba(211,211,211,0.24); padding:14px 24px; border-radius:8px; cursor:pointer" style-hover="border-color:rgba(211,211,211,0.6); color:#fff">Limpar</button>
+              <button onClick="{{ addProduct }}" style="font-size:13px; font-weight:500; letter-spacing:0.06em; color:#000; background:#FF2C2C; border:1px solid #FF2C2C; padding:14px 28px; border-radius:8px; cursor:pointer" style-hover="background:#ff4747">Adicionar produto</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:flex; flex-direction:column; gap:22px">
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:30px">
+        <div style="display:flex; flex-direction:column; gap:10px">
+          <span style="font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:#FF2C2C">Estoque</span>
+          <h2 style="margin:0; font-size:30px; font-weight:200; letter-spacing:-0.03em; color:#F8F8F8">Produtos no catálogo</h2>
+        </div>
+        <div style="display:flex; gap:10px">
+          <sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+            <button style="{{ f.style }}" onClick="{{ f.onClick }}">{{ f.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div ref="{{ listRef }}" style="display:flex; flex-direction:column; gap:14px">
+        <sc-for list="{{ rows }}" as="p" hint-placeholder-count="0">
+          <article style="display:grid; grid-template-columns:96px 1fr; gap:22px; padding:20px; border:1px solid rgba(211,211,211,0.16); border-radius:18px; background:#050505">
+            <div style="width:96px; height:96px; border-radius:12px; overflow:hidden; background:#f2f2f2; display:flex; align-items:center; justify-content:center">
+              <sc-if value="{{ p.hasImg }}" hint-placeholder-val="{{ false }}">
+                <img data-src="{{ p.img }}" alt="{{ p.alt }}" style="width:100%; height:100%; object-fit:cover; display:block">
+              </sc-if>
+              <sc-if value="{{ p.noImg }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size:8px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(12,9,18,0.35); text-align:center">Sem foto</span>
+              </sc-if>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:14px; min-width:0">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:20px">
+                <div style="display:flex; flex-direction:column; gap:5px; min-width:0">
+                  <span style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(211,211,211,0.45)">{{ p.meta }}</span>
+                  <h3 style="margin:0; font-size:19px; font-weight:300; letter-spacing:-0.03em; color:#F8F8F8">{{ p.name }}</h3>
+                </div>
+                <div style="display:flex; align-items:center; gap:16px; flex:0 0 auto">
+                  <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:{{ p.stockColor }}">{{ p.totalLabel }}</span>
+                  <span style="font-size:18px; font-weight:300; color:#F8F8F8; white-space:nowrap">{{ p.priceLabel }}</span>
+                  <button onClick="{{ p.remove }}" style="font-size:11px; letter-spacing:0.08em; color:rgba(211,211,211,0.6); background:transparent; border:1px solid rgba(211,211,211,0.2); padding:10px 14px; border-radius:6px; cursor:pointer" style-hover="color:#FF2C2C; border-color:rgba(255,44,44,0.6)">Remover</button>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:repeat(10,1fr); gap:8px">
+                <sc-for list="{{ p.sizes }}" as="s" hint-placeholder-count="10">
+                  <div style="{{ s.boxStyle }}">
+                    <span style="font-size:10px; letter-spacing:0.08em; color:rgba(211,211,211,0.55)">{{ s.size }}</span>
+                    <span style="font-size:17px; font-weight:300; color:{{ s.qtyColor }}">{{ s.qty }}</span>
+                    <div style="display:flex; gap:5px; width:100%">
+                      <button onClick="{{ s.dec }}" style="flex:1; font-size:14px; line-height:1; color:#D3D3D3; background:transparent; border:1px solid rgba(211,211,211,0.2); border-radius:5px; padding:7px 0; cursor:pointer" style-hover="border-color:rgba(255,44,44,0.7); color:#fff">−</button>
+                      <button onClick="{{ s.inc }}" style="flex:1; font-size:14px; line-height:1; color:#000; background:rgba(211,211,211,0.85); border:1px solid rgba(211,211,211,0.85); border-radius:5px; padding:7px 0; cursor:pointer" style-hover="background:#fff">+</button>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:20px; padding-top:4px">
+                <span style="font-size:11px; line-height:1.5; font-weight:300; color:rgba(211,211,211,0.45); min-width:0">{{ p.waPreview }}</span>
+                <a href="{{ p.waHref }}" target="_blank" rel="noopener" style="font-size:11px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#000; background:#FF2C2C; padding:11px 18px; border-radius:6px; flex:0 0 auto; white-space:nowrap" style-hover="background:#ff4747">Testar WhatsApp</a>
+              </div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+      <sc-if value="{{ emptyList }}" hint-placeholder-val="{{ false }}">
+        <p style="margin:0; font-size:13px; font-weight:300; color:rgba(211,211,211,0.5)">Nenhum produto nesse filtro.</p>
+      </sc-if>
+    </section>
+
+    <section style="display:flex; align-items:center; justify-content:space-between; gap:24px; padding:24px 30px; border:1px solid rgba(211,211,211,0.16); border-radius:18px">
+      <div style="display:flex; flex-direction:column; gap:6px">
+        <span style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(211,211,211,0.55)">Número de WhatsApp da loja</span>
+        <span style="font-size:11px; font-weight:300; color:rgba(211,211,211,0.45)">Somente dígitos, com código do país. Usado em todos os links de produto.</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px">
+        <input value="{{ phone }}" onChange="{{ onPhone }}" style="font-size:14px; font-weight:300; color:#F8F8F8; background:#0b0b0b; border:1px solid rgba(211,211,211,0.22); border-radius:8px; padding:13px 14px; width:220px">
+        <button onClick="{{ resetAll }}" style="font-size:12px; letter-spacing:0.06em; color:rgba(211,211,211,0.6); background:transparent; border:1px solid rgba(211,211,211,0.2); padding:13px 20px; border-radius:8px; cursor:pointer" style-hover="color:#FF2C2C; border-color:rgba(255,44,44,0.6)">Restaurar catálogo padrão</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.listRef = React.createRef();
+    const S = window.KronosStore;
+    const data = S ? S.load() : { phone: '', products: [] };
+    this.state = {
+      products: data.products,
+      phone: data.phone,
+      filter: 'Todos',
+      status: '',
+      statusOk: true,
+      saved: '',
+      form: this.blankForm(),
+      showLogin: false,
+      loginEmail: '',
+      loginPassword: '',
+      loginError: '',
+      loginBusy: false,
+      photoBusy: false,
+      // O load() inicial devolve o cache local synco (que pode ter ids antigos) e busca a
+      // versão real da API em paralelo. Enquanto essa primeira sincronização não termina,
+      // nenhuma mutação pode sair — senão o diff do save() compara contra ids que já não
+      // existem no servidor e acaba apagando/recriando o catálogo inteiro (ver persist()).
+      catalogLoaded: false
+    };
+    this.onUnauthorized = () => this.setState({ showLogin: true, loginError: '' });
+    this.onStoreUpdate = (e) => {
+      const d = e.detail || (window.KronosStore ? window.KronosStore.load() : null);
+      if (d) this.setState({ products: d.products, phone: d.phone, catalogLoaded: true });
+    };
+  }
+
+  blankForm() {
+    const stock = {};
+    (window.KronosStore ? window.KronosStore.SIZES : []).forEach(s => { stock[s] = ''; });
+    return { brand: 'Nike', name: '', cat: 'corrida', price: '', desc: '', avail: 'Pronta entrega', img: '', stock };
+  }
+
+  componentDidMount() {
+    this.hydrateImages();
+    window.addEventListener('kronos:unauthorized', this.onUnauthorized);
+    window.addEventListener('kronos:update', this.onStoreUpdate);
+    const S = window.KronosStore;
+    if (S) {
+      S.me().then(
+        () => this.setState({ showLogin: false }),
+        () => this.setState({ showLogin: true })
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('kronos:unauthorized', this.onUnauthorized);
+    window.removeEventListener('kronos:update', this.onStoreUpdate);
+  }
+  componentDidUpdate() { this.hydrateImages(); }
+
+  handleLoginSubmit = (e) => {
+    e.preventDefault();
+    const S = window.KronosStore;
+    if (!S || this.state.loginBusy) return;
+    this.setState({ loginBusy: true, loginError: '' });
+    S.login(this.state.loginEmail.trim(), this.state.loginPassword)
+      .then(() => {
+        this.setState({ showLogin: false, loginBusy: false, loginPassword: '' });
+        S.load();
+      })
+      .catch((err) => {
+        this.setState({ loginBusy: false, loginError: (err && err.message) || 'Não foi possível entrar.' });
+      });
+  };
+
+  handleLogout = () => {
+    const S = window.KronosStore;
+    if (!S) return;
+    S.logout().finally(() => this.setState({ showLogin: true, loginEmail: '', loginPassword: '' }));
+  };
+
+  handlePhotoFile = (e) => {
+    const S = window.KronosStore;
+    const file = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!S || !file) return;
+    this.setState({ photoBusy: true, status: '' });
+    S.uploadImage(file)
+      .then((result) => {
+        this.setForm({ img: result.url });
+        this.setState({ photoBusy: false });
+      })
+      .catch((err) => {
+        this.setState({ photoBusy: false, status: (err && err.message) || 'Falha ao enviar a foto.', statusOk: false });
+      });
+  };
+
+  hydrateImages() {
+    const root = this.listRef.current;
+    if (!root) return;
+    root.querySelectorAll('img[data-src]').forEach(el => {
+      const u = el.getAttribute('data-src');
+      if (u && u.indexOf('{{') === -1 && el.getAttribute('src') !== u) el.setAttribute('src', u);
+    });
+  }
+
+  persist(products, phone) {
+    if (!this.state.catalogLoaded) return;
+    const S = window.KronosStore;
+    const next = { phone: phone ?? this.state.phone, products: products ?? this.state.products };
+    if (S) S.save(next);
+    const t = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    this.setState({ products: next.products, phone: next.phone, saved: 'Salvo às ' + t });
+  }
+
+  setQty(id, size, delta, absolute) {
+    const products = this.state.products.map(p => {
+      if (p.id !== id) return p;
+      const stock = Object.assign({}, p.stock);
+      const cur = Number(stock[size]) || 0;
+      stock[size] = Math.max(0, absolute != null ? absolute : cur + delta);
+      return Object.assign({}, p, { stock });
+    });
+    this.persist(products);
+  }
+
+  removeProduct(id) {
+    this.persist(this.state.products.filter(p => p.id !== id));
+  }
+
+  setForm(patch) { this.setState(s => ({ form: Object.assign({}, s.form, patch), status: '' })); }
+
+  addProduct = () => {
+    const S = window.KronosStore;
+    const f = this.state.form;
+    const price = Number(String(f.price).replace(/[^\d]/g, ''));
+    if (!this.state.catalogLoaded) return this.setState({ status: 'Aguarde o catálogo carregar.', statusOk: false });
+    if (!f.name.trim()) return this.setState({ status: 'Informe o modelo do tênis.', statusOk: false });
+    if (!price) return this.setState({ status: 'Informe um preço válido.', statusOk: false });
+    const stock = {};
+    S.SIZES.forEach(s => { stock[s] = Math.max(0, Number(f.stock[s]) || 0); });
+    const item = {
+      id: 'p' + Date.now(),
+      brand: f.brand, cat: f.cat, name: f.name.trim(),
+      desc: f.desc.trim() || (f.brand + ' ' + f.name.trim() + ' — ' + f.cat + '.'),
+      price, avail: f.avail, img: f.img.trim(), stock
+    };
+    this.persist([item].concat(this.state.products));
+    this.setState({ form: this.blankForm(), status: item.brand + ' ' + item.name + ' adicionado. Link de WhatsApp gerado com tamanho e valor.', statusOk: true });
+  };
+
+  filterStyle(active) {
+    const base = 'font-family:Sora, sans-serif; font-size:12px; letter-spacing:0.06em; padding:12px 20px; border-radius:20px; cursor:pointer; transition:all 200ms cubic-bezier(0.22,1,0.36,1); ';
+    return base + (active ? 'color:#000; background:#D3D3D3; border:1px solid #D3D3D3' : 'color:#D3D3D3; background:transparent; border:1px solid rgba(211,211,211,0.22)');
+  }
+
+  renderVals() {
+    const S = window.KronosStore;
+    if (!S) return {};
+    const { products, filter, form, phone } = this.state;
+
+    const formSizes = S.SIZES.map(size => ({
+      size, qty: form.stock[size],
+      onChange: (e) => {
+        const v = e.target.value.replace(/[^\d]/g, '');
+        this.setForm({ stock: Object.assign({}, form.stock, { [size]: v }) });
+      }
+    }));
+
+    const firstFormSize = S.SIZES.find(s => Number(form.stock[s]) > 0);
+    const previewMsg = S.waMessage(
+      { brand: form.brand, name: form.name.trim() || '[modelo]', price: Number(String(form.price).replace(/[^\d]/g, '')) || 0, avail: form.avail },
+      firstFormSize
+    );
+
+    const visible = products.filter(p => filter === 'Todos' || p.avail === filter);
+    const rows = visible.map(p => {
+      const total = S.total(p);
+      return {
+        id: p.id, name: p.name, meta: p.brand + ' · ' + p.cat,
+        priceLabel: S.brl(p.price), alt: p.brand + ' ' + p.name,
+        hasImg: !!p.img, noImg: !p.img, img: p.img ? encodeURI(p.img) : '',
+        totalLabel: p.avail === 'Por encomenda' ? 'Por encomenda' : (total > 0 ? total + ' pares' : 'Sem estoque'),
+        stockColor: p.avail === 'Por encomenda' ? 'rgba(211,211,211,0.5)' : (total > 0 ? 'rgba(211,211,211,0.6)' : '#FF2C2C'),
+        remove: () => this.removeProduct(p.id),
+        waPreview: S.waMessage(p, S.sizesInStock(p)[0]),
+        waHref: S.waLink(p, S.sizesInStock(p)[0], phone),
+        sizes: S.SIZES.map(size => {
+          const qty = Number(p.stock[size]) || 0;
+          return {
+            size, qty,
+            qtyColor: qty > 0 ? '#F8F8F8' : 'rgba(211,211,211,0.28)',
+            boxStyle: 'display:flex; flex-direction:column; align-items:center; gap:6px; padding:9px 6px; border-radius:10px; border:1px solid ' + (qty > 0 ? 'rgba(211,211,211,0.24)' : 'rgba(211,211,211,0.1)'),
+            inc: () => this.setQty(p.id, size, 1),
+            dec: () => this.setQty(p.id, size, -1)
+          };
+        })
+      };
+    });
+
+    const filters = ['Todos', 'Pronta entrega', 'Por encomenda'].map(f => ({
+      label: f, style: this.filterStyle(filter === f), onClick: () => this.setState({ filter: f })
+    }));
+
+    return {
+      form, formSizes, previewMsg, rows, filters, phone,
+      listRef: this.listRef,
+      emptyList: rows.length === 0,
+      savedLabel: this.state.catalogLoaded ? this.state.saved : 'Carregando catálogo…',
+      status: this.state.status,
+      statusColor: this.state.statusOk ? 'rgba(211,211,211,0.6)' : '#FF2C2C',
+      kpi: {
+        produtos: products.length,
+        pares: products.reduce((a, p) => a + S.total(p), 0),
+        esgotados: products.filter(p => p.avail === 'Pronta entrega' && S.total(p) === 0).length,
+        encomenda: products.filter(p => p.avail === 'Por encomenda').length
+      },
+      onBrand: (e) => this.setForm({ brand: e.target.value }),
+      onName: (e) => this.setForm({ name: e.target.value }),
+      onCat: (e) => this.setForm({ cat: e.target.value }),
+      onPrice: (e) => this.setForm({ price: e.target.value.replace(/[^\d]/g, '') }),
+      onDesc: (e) => this.setForm({ desc: e.target.value }),
+      onAvail: (e) => this.setForm({ avail: e.target.value }),
+      onImg: (e) => this.setForm({ img: e.target.value }),
+      onPhotoFile: this.handlePhotoFile,
+      photoButtonLabel: this.state.photoBusy ? 'Enviando…' : 'Enviar foto',
+      onPhone: (e) => this.persist(null, e.target.value.replace(/[^\d]/g, '')),
+      addProduct: this.addProduct,
+      showLogin: this.state.showLogin,
+      loginEmail: this.state.loginEmail,
+      loginPassword: this.state.loginPassword,
+      loginError: this.state.loginError,
+      loginBusy: this.state.loginBusy,
+      loginButtonLabel: this.state.loginBusy ? 'Entrando…' : 'Entrar',
+      onLoginEmail: (e) => this.setState({ loginEmail: e.target.value }),
+      onLoginPassword: (e) => this.setState({ loginPassword: e.target.value }),
+      onLoginSubmit: this.handleLoginSubmit,
+      onLogout: this.handleLogout,
+      resetForm: () => this.setState({ form: this.blankForm(), status: '' }),
+      resetAll: () => {
+        if (!this.state.catalogLoaded) return this.setState({ status: 'Aguarde o catálogo carregar.', statusOk: false });
+        const seed = S.SEED.map(p => Object.assign({}, p, { stock: Object.assign({}, p.stock) }));
+        this.persist(seed, '5511999999999');
+        this.setState({ status: 'Catálogo padrão restaurado.', statusOk: true });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

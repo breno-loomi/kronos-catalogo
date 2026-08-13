@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/loomi-design-system-030e7f7d-16b3-43fc-aa3b-a170bf2641d0/colors_and_type.css">
+<link rel="stylesheet" href="_ds/loomi-design-system-030e7f7d-16b3-43fc-aa3b-a170bf2641d0/styles.css">
+<script src="_ds/loomi-design-system-030e7f7d-16b3-43fc-aa3b-a170bf2641d0/_ds_bundle.js"></script>
+<script src="./kronos-store.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+  html, body { margin:0; padding:0; background:#000; }
+  * { box-sizing:border-box; }
+  a { color:#FF2C2C; text-decoration:none; }
+  a:hover { color:#ff5c5c; }
+  ::selection { background:#FF2C2C; color:#000; }
+</style>
+</helmet>
+<div data-theme="dark" style="background:#000; color:#D3D3D3; font-family:Sora, sans-serif; min-height:100vh; overflow-x:hidden">
+
+  <header style="position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between; padding:22px 80px; background:rgba(0,0,0,0.72); backdrop-filter:blur(24px); border-bottom:1px solid rgba(211,211,211,0.12)">
+    <div style="display:flex; align-items:baseline; gap:12px">
+      <span style="font-size:20px; font-weight:600; letter-spacing:0.18em; color:#F8F8F8">KRONOS</span>
+      <span style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(211,211,211,0.45)">Loja multimarcas</span>
+    </div>
+    <nav style="display:flex; align-items:center; gap:36px">
+      <a href="#destaques" style="font-size:13px; letter-spacing:0.06em; color:#D3D3D3">Catálogo</a>
+      <a href="#tecnologia" style="font-size:13px; letter-spacing:0.06em; color:#D3D3D3">A loja</a>
+      <a href="#contato" style="font-size:13px; letter-spacing:0.06em; color:#D3D3D3">Contato</a>
+      <a href="#destaques" style="font-size:13px; font-weight:500; letter-spacing:0.06em; color:#000; background:#FF2C2C; padding:11px 22px; border-radius:6px" style-hover="background:#ff4747">Comprar agora</a>
+    </nav>
+  </header>
+
+  <section style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:130px 80px 110px; gap:34px">
+    <div style="position:absolute; inset:0; background:radial-gradient(60% 50% at 50% 30%, rgba(255,44,44,0.14), transparent 70%); pointer-events:none"></div>
+    <div style="position:relative; display:flex; flex-direction:column; align-items:center; gap:34px; max-width:1000px">
+      <span style="font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#FF2C2C">Loja multimarcas · corrida, treino e lifestyle</span>
+      <h1 ref="{{ titleRef }}" style="margin:0; font-size:92px; line-height:1.02; font-weight:200; letter-spacing:-0.04em; color:#F8F8F8; text-wrap:balance">Todos os tênis, um só lugar</h1>
+      <p style="margin:0; max-width:600px; font-size:17px; line-height:1.65; font-weight:300; color:rgba(211,211,211,0.7); text-wrap:pretty">Modelos de performance, treino e uso diário das principais marcas. Estoque real, numeração conferida e envio em até 48h.</p>
+      <div style="display:flex; gap:14px; margin-top:6px">
+        <a href="#destaques" style="font-size:14px; font-weight:500; letter-spacing:0.04em; color:#000; background:#FF2C2C; padding:15px 34px; border-radius:6px" style-hover="background:#ff4747">Comprar agora</a>
+        <a href="#destaques" style="font-size:14px; font-weight:400; letter-spacing:0.04em; color:#D3D3D3; border:1px solid rgba(211,211,211,0.28); padding:15px 34px; border-radius:6px" style-hover="border-color:rgba(211,211,211,0.6); color:#fff">Ver catálogo</a>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(211,211,211,0.14); border:1px solid rgba(211,211,211,0.14); border-radius:10px; overflow:hidden; margin-top:44px; width:100%; max-width:840px">
+        <div style="background:#000; padding:26px 28px; display:flex; flex-direction:column; gap:8px; text-align:left">
+          <span style="font-size:26px; font-weight:200; color:#F8F8F8">12 marcas</span>
+          <span style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(211,211,211,0.5)">Catálogo oficial</span>
+        </div>
+        <div style="background:#000; padding:26px 28px; display:flex; flex-direction:column; gap:8px; text-align:left">
+          <span style="font-size:26px; font-weight:200; color:#F8F8F8">48h</span>
+          <span style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(211,211,211,0.5)">Envio para todo o Brasil</span>
+        </div>
+        <div style="background:#000; padding:26px 28px; display:flex; flex-direction:column; gap:8px; text-align:left">
+          <span style="font-size:26px; font-weight:200; color:#F8F8F8">30 dias</span>
+          <span style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(211,211,211,0.5)">Troca de numeração</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="destaques" style="padding:100px 80px; border-top:1px solid rgba(211,211,211,0.12)">
+    <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:48px; gap:40px">
+      <div style="display:flex; flex-direction:column; gap:14px">
+        <span style="font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#FF2C2C">Todos os modelos</span>
+        <h2 style="margin:0; font-size:46px; font-weight:200; letter-spacing:-0.03em; color:#F8F8F8">Catálogo</h2>
+      </div>
+      <span style="font-size:13px; line-height:1.6; font-weight:300; color:rgba(211,211,211,0.6); max-width:320px; text-align:right">Quatro marcas, numerações do 36 ao 45. Pronta entrega ou encomenda internacional.</span>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px">
+      <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="2">
+        <button style="{{ tab.style }}" onClick="{{ tab.onClick }}">{{ tab.label }}</button>
+      </sc-for>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:16px">
+      <sc-for list="{{ brands }}" as="b" hint-placeholder-count="5">
+        <button style="{{ b.style }}" onClick="{{ b.onClick }}">{{ b.label }}</button>
+      </sc-for>
+    </div>
+    <p style="margin:0 0 34px; font-size:13px; font-weight:300; color:rgba(211,211,211,0.55)">{{ note }}</p>
+    <div ref="{{ gridRef }}" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px">
+      <sc-for list="{{ list }}" as="p" hint-placeholder-count="0">
+        <article style="display:flex; flex-direction:column; border:1px solid rgba(211,211,211,0.16); border-radius:20px; overflow:hidden; background:#050505; transition:border-color 200ms cubic-bezier(0.22,1,0.36,1)" style-hover="border-color:rgba(255,44,44,0.6)">
+          <div style="position:relative; height:300px; background:#f2f2f2">
+            <sc-if value="{{ p.hasImg }}" hint-placeholder-val="{{ false }}">
+              <img data-src="{{ p.img }}" alt="{{ p.alt }}" style="width:100%; height:100%; object-fit:cover; display:block">
+            </sc-if>
+            <sc-if value="{{ p.noImg }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; background:#f2f2f2">
+                <span style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(12,9,18,0.35)">Foto em breve</span>
+              </div>
+            </sc-if>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px; padding:26px 28px 30px">
+            <span style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(211,211,211,0.45)">{{ p.meta }}</span>
+            <h3 style="margin:0; font-size:22px; font-weight:300; letter-spacing:-0.03em; color:#F8F8F8">{{ p.name }}</h3>
+            <p style="margin:0; font-size:13px; line-height:1.6; font-weight:300; color:rgba(211,211,211,0.62)">{{ p.desc }}</p>
+            <sc-if value="{{ p.hasSizes }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; flex-direction:column; gap:8px; margin-top:6px">
+                <span style="font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(211,211,211,0.4)">{{ p.sizeLabel }}</span>
+                <div style="display:flex; flex-wrap:wrap; gap:6px">
+                  <sc-for list="{{ p.sizes }}" as="s" hint-placeholder-count="0">
+                    <button style="{{ s.style }}" onClick="{{ s.onClick }}">{{ s.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ p.soldOut }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:#FF2C2C; margin-top:6px">Sem estoque — consulte</span>
+            </sc-if>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:14px">
+              <span style="font-size:20px; font-weight:300; color:#F8F8F8; white-space:nowrap">{{ p.price }}</span>
+              <a href="{{ p.waHref }}" target="_blank" rel="noopener" style="font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:#000; background:#FF2C2C; padding:13px 18px; border-radius:5px; flex:0 0 auto; white-space:nowrap; line-height:1.2" style-hover="background:#ff4747">{{ p.cta }}</a>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+    <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+      <p style="margin:40px 0 0; font-size:14px; font-weight:300; color:rgba(211,211,211,0.5)">Nada nessa combinação por enquanto. Fale com a equipe e a gente consulta a disponibilidade.</p>
+    </sc-if>
+  </section>
+
+  <section id="tecnologia" style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; padding:100px 80px; border-top:1px solid rgba(211,211,211,0.12)">
+    <div style="display:flex; flex-direction:column; gap:22px">
+      <span style="font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#FF2C2C">A loja</span>
+      <h2 style="margin:0; font-size:42px; font-weight:200; letter-spacing:-0.03em; color:#F8F8F8; text-wrap:balance">Curadoria de marca, não vitrine de estoque</h2>
+      <p style="margin:0; font-size:15px; line-height:1.7; font-weight:300; color:rgba(211,211,211,0.68); text-wrap:pretty">Trabalhamos com doze marcas de corrida, treino e uso diário. Cada modelo entra no catálogo depois de teste em pista, e a equipe indica o par certo pelo seu tipo de pisada e quilometragem semanal.</p>
+      <div style="display:flex; flex-direction:column; gap:1px; background:rgba(211,211,211,0.14); border-top:1px solid rgba(211,211,211,0.14); border-bottom:1px solid rgba(211,211,211,0.14); margin-top:12px">
+        <div style="background:#000; display:flex; justify-content:space-between; padding:18px 2px; font-size:14px; font-weight:300"><span style="color:rgba(211,211,211,0.55)">Marcas no catálogo</span><span style="color:#F8F8F8">12</span></div>
+        <div style="background:#000; display:flex; justify-content:space-between; padding:18px 2px; font-size:14px; font-weight:300"><span style="color:rgba(211,211,211,0.55)">Numerações</span><span style="color:#F8F8F8">36 ao 45</span></div>
+        <div style="background:#000; display:flex; justify-content:space-between; padding:18px 2px; font-size:14px; font-weight:300"><span style="color:rgba(211,211,211,0.55)">Troca de numeração</span><span style="color:#F8F8F8">30 dias</span></div>
+      </div>
+    </div>
+    <div style="position:relative; height:460px; border-radius:16px; overflow:hidden; border:1px solid rgba(211,211,211,0.16)">
+      <image-slot id="kronos-tech" shape="rect" placeholder="Foto da loja / parede de tênis"></image-slot>
+    </div>
+  </section>
+
+  <section id="contato" style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:26px; padding:110px 80px; border-top:1px solid rgba(211,211,211,0.12); background:radial-gradient(70% 60% at 50% 100%, rgba(255,44,44,0.12), transparent 70%)">
+    <span style="font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#FF2C2C">Contato</span>
+    <h2 style="margin:0; font-size:44px; font-weight:200; letter-spacing:-0.03em; color:#F8F8F8; max-width:640px; text-wrap:balance">Não achou o modelo? A gente procura</h2>
+    <p style="margin:0; max-width:520px; font-size:15px; line-height:1.7; font-weight:300; color:rgba(211,211,211,0.65)">Fale com a equipe para consultar numeração, encomendar um modelo fora do catálogo ou negociar pedidos de equipe.</p>
+    <div style="display:flex; gap:14px; margin-top:8px">
+      <a href="#contato" style="font-size:14px; font-weight:500; color:#000; background:#FF2C2C; padding:15px 34px; border-radius:6px" style-hover="background:#ff4747">Comprar agora</a>
+      <a href="#contato" style="font-size:14px; font-weight:400; color:#D3D3D3; border:1px solid rgba(211,211,211,0.28); padding:15px 34px; border-radius:6px" style-hover="border-color:rgba(211,211,211,0.6); color:#fff">WhatsApp</a>
+    </div>
+  </section>
+
+  <footer style="display:flex; align-items:center; justify-content:space-between; padding:34px 80px; border-top:1px solid rgba(211,211,211,0.12)">
+    <span style="font-size:16px; font-weight:600; letter-spacing:0.18em; color:rgba(248,248,248,0.7)">KRONOS</span>
+    <span style="font-size:12px; font-weight:300; color:rgba(211,211,211,0.4)">© 2026 Kronos · Todos os direitos reservados</span>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;headline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Todos os tênis, um só lugar&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;decryptMs&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1200,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:100,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.titleRef = React.createRef();
+    this.gridRef = React.createRef();
+  }
+  componentDidMount() {
+    this.runDecrypt(); this.hydrateImages();
+    window.addEventListener('kronos:update', this.onStore);
+    this._sync = () => { if (window.KronosStore) { const d = window.KronosStore.load(); this.setState({ products: d.products, phone: d.phone }); } };
+    window.addEventListener('storage', this._sync);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('kronos:update', this.onStore);
+    window.removeEventListener('storage', this._sync);
+  }
+  componentDidUpdate() { this.hydrateImages(); }
+
+  hydrateImages() {
+    const root = this.gridRef.current;
+    if (!root) return;
+    root.querySelectorAll('img[data-src]').forEach(el => {
+      const u = el.getAttribute('data-src');
+      if (u && u.indexOf('{{') === -1 && el.getAttribute('src') !== u) el.setAttribute('src', u);
+    });
+  }
+
+  runDecrypt() {
+    const el = this.titleRef.current;
+    if (!el) return;
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const final = (this.props.headline ?? el.textContent).trim();
+    el.textContent = final;
+    if (reduced) return;
+
+    const dur = this.props.decryptMs ?? 1200;
+    const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/\\<>#*';
+    const start = performance.now();
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      const revealed = Math.floor(t * final.length);
+      let out = '';
+      for (let i = 0; i < final.length; i++) {
+        const c = final[i];
+        if (i < revealed || c === ' ') out += c;
+        else out += glyphs[(Math.random() * glyphs.length) | 0];
+      }
+      el.textContent = out;
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = final;
+    };
+    requestAnimationFrame(tick);
+  }
+
+  state = { avail: 'Pronta entrega', brand: 'Todas', picked: {}, products: (window.KronosStore ? window.KronosStore.load().products : []), phone: (window.KronosStore ? window.KronosStore.load().phone : '') };
+
+  onStore = (e) => {
+    const d = e.detail || (window.KronosStore ? window.KronosStore.load() : null);
+    if (d) this.setState({ products: d.products, phone: d.phone });
+  };
+
+  tabStyle(active) {
+    return active
+      ? 'font-family:inherit; font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#000; background:#D3D3D3; border:1px solid #D3D3D3; padding:13px 26px; border-radius:8px; cursor:pointer; transition:all 200ms cubic-bezier(0.22,1,0.36,1)'
+      : 'font-family:inherit; font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(211,211,211,0.75); background:transparent; border:1px solid rgba(211,211,211,0.22); padding:13px 26px; border-radius:8px; cursor:pointer; transition:all 200ms cubic-bezier(0.22,1,0.36,1)';
+  }
+  chipStyle(active) {
+    return active
+      ? 'font-family:inherit; font-size:12px; letter-spacing:0.06em; color:#000; background:#FF2C2C; border:1px solid #FF2C2C; padding:9px 20px; border-radius:20px; cursor:pointer; transition:all 200ms cubic-bezier(0.22,1,0.36,1)'
+      : 'font-family:inherit; font-size:12px; letter-spacing:0.06em; color:#D3D3D3; background:transparent; border:1px solid rgba(211,211,211,0.22); padding:9px 20px; border-radius:20px; cursor:pointer; transition:all 200ms cubic-bezier(0.22,1,0.36,1)';
+  }
+
+  sizeStyle(active, avail) {
+    const base = 'font-family:Sora, sans-serif; min-width:40px; font-size:11px; letter-spacing:0.04em; padding:10px 8px; border-radius:8px; cursor:pointer; line-height:1.2; transition:all 200ms cubic-bezier(0.22,1,0.36,1); ';
+    if (active) return base + 'color:#000; background:#D3D3D3; border:1px solid #D3D3D3';
+    return base + 'color:rgba(211,211,211,0.7); background:transparent; border:1px solid rgba(211,211,211,0.2)';
+  }
+
+  renderVals() {
+    const S = window.KronosStore;
+    if (!S) return {};
+    const { avail, brand, picked, phone } = this.state;
+    const list = this.state.products
+      .filter(p => p.avail === avail)
+      .filter(p => brand === 'Todas' || p.brand === brand)
+      .map(p => {
+        const inStock = S.sizesInStock(p);
+        const options = p.avail === 'Por encomenda' ? S.SIZES : inStock;
+        const sel = picked[p.id] || options[0];
+        return Object.assign({}, p, {
+          meta: p.brand + ' · ' + p.cat,
+          price: S.brl(p.price),
+          hasImg: !!p.img, noImg: !p.img,
+          img: p.img ? encodeURI(p.img) : '',
+          alt: p.brand + ' ' + p.name,
+          hasSizes: options.length > 0,
+          soldOut: options.length === 0,
+          sizeLabel: p.avail === 'Por encomenda' ? 'Numeração para encomenda' : 'Numerações disponíveis',
+          sizes: options.map(size => ({
+            size, label: size,
+            style: this.sizeStyle(sel === size, p.avail),
+            onClick: () => this.setState(st => ({ picked: Object.assign({}, st.picked, { [p.id]: size }) }))
+          })),
+          waHref: S.waLink(p, sel, phone),
+          cta: p.avail === 'Por encomenda' ? 'Encomendar' : 'Comprar'
+        });
+      });
+
+    const tabs = ['Pronta entrega', 'Por encomenda'].map(t => ({
+      label: t === 'Por encomenda' ? 'Pedidos por encomenda' : t,
+      style: this.tabStyle(avail === t),
+      onClick: () => this.setState({ avail: t })
+    }));
+    const brands = ['Todas', 'Nike', 'Adidas', 'New Balance', 'On Running'].map(b => ({
+      label: b, style: this.chipStyle(brand === b),
+      onClick: () => this.setState({ brand: b })
+    }));
+
+    const note = avail === 'Pronta entrega'
+      ? 'Em estoque agora. Envio em até 48h para todo o Brasil.'
+      : 'Encomenda internacional. Prazo de 15 a 30 dias, com pagamento em duas etapas.';
+
+    return { titleRef: this.titleRef, gridRef: this.gridRef, list, tabs, brands, note, empty: list.length === 0 };
+  }
+}
+</script>
+</body>
+</html>
