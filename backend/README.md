@@ -118,14 +118,42 @@ S3/R2 e troque a instância montada em `src/infra/http/bootstrap.ts` — nenhum 
 
 ## Notas de deploy
 
-- Cookie de sessão: `httpOnly`, `SameSite=Lax`, e `Secure` automaticamente quando
-  `NODE_ENV=production`. Se front e API ficarem em domínios diferentes (não apenas portas
-  diferentes em `localhost`), troque para `SameSite=None; Secure` e sirva tudo por HTTPS.
-- `npm run build && npm start` compila para `dist/` e roda com Node puro (sem `tsx`).
-- Rode `npm run prisma:migrate:deploy` (não `migrate dev`) em produção.
+- Cookie de sessão: `httpOnly`, e automaticamente `SameSite=None; Secure` quando
+  `NODE_ENV=production` (necessário porque front no Vercel e API no Railway/VPS são domínios
+  diferentes de verdade — `SameSite=Lax` bloquearia o cookie num fetch cross-site). Em dev
+  continua `SameSite=Lax` sem `Secure`, pra não precisar de HTTPS local.
+- `npm run build && npm start` compila pra `dist/` e roda com Node puro. Em produção, `start`
+  já roda `prisma migrate deploy` antes de subir o servidor — não precisa de um passo extra
+  separado.
 - `npm audit` acusa uma cadeia `vitest → vite → esbuild` (dev-only, servidor de teste local,
   não é executado em produção); atualizar exige subir pro Vitest 4, deixado fora de escopo
   aqui.
+
+### Deploy no Railway
+
+1. Railway → **New Project** → **Deploy from GitHub repo** → escolha o repositório.
+2. Nas configurações do serviço, defina **Root Directory** = `backend` (é um monorepo — o
+   front-end estático vive na raiz, fora do que o Railway precisa buildar).
+3. Adicione um banco: **+ New** → **Database** → **PostgreSQL**.
+4. No serviço da API, aba **Variables**, adicione uma referência à variável do Postgres
+   (`+ New Variable` → **Add Reference** → escolha `DATABASE_URL` do serviço Postgres) e mais
+   estas:
+
+   | Variável | Valor |
+   |---|---|
+   | `NODE_ENV` | `production` |
+   | `JWT_SECRET` | uma string aleatória longa (gere com `openssl rand -base64 48`) |
+   | `CORS_ORIGIN` | a URL do front no Vercel, ex. `https://kronos-catalogo-six.vercel.app` |
+   | `UPLOAD_DIR` | `/app/uploads` |
+   | `PUBLIC_UPLOAD_BASE_URL` | `https://${{RAILWAY_PUBLIC_DOMAIN}}/uploads` |
+
+   (`PORT`/`HOST` não precisam ser definidos — o Railway injeta `PORT` sozinho e o app já lê
+   `env.PORT`.)
+5. Adicione um **Volume** ao serviço (Settings → Volumes) montado em `/app/uploads`, senão as
+   fotos enviadas somem a cada deploy.
+6. Deploy. Depois, gere o primeiro admin rodando localmente contra o banco de produção:
+   `DATABASE_URL="<a mesma URL do Postgres do Railway>" npm run create-admin -- --email=... --password=...`
+   (ou use `railway run npm run create-admin -- ...` se o CLI funcionar na sua máquina).
 
 ## Troubleshooting
 
