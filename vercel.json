@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/Catalogo%20KRONOS.dc.html" }
+    { "source": "/", "destination": "/Catalogo%20KRONOS.dc.html" },
+    { "source": "/admin", "destination": "/Admin%20KRONOS.dc.html" }
   ]
 }
