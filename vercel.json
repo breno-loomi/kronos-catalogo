@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/Catalogo%20KRONOS.dc.html" }
+  ]
+}
