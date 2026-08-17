@@ -27,23 +27,26 @@
   a:hover { color:#ff5c5c; }
   ::selection { background:#FF2C2C; color:#000; }
 
-  /* A página é toda em style inline (padding/grid fixos pra desktop), então essas
-     regras usam seletor de tag/id/substring de style pra sobrescrever com !important —
-     é o jeito de fazer responsivo sem reescrever cada atributo style do zero. */
+  /* A página é toda em style inline (padding/grid fixos pra desktop). O framework
+     re-serializa esses styles com espaçamento diferente do original (ex.
+     "grid-template-columns: repeat(3, 1fr)" em vez de "repeat(3,1fr)"), então um
+     seletor [style*="..."] não bate de forma confiável — por isso essas regras usam
+     só tag/id/posição estrutural (nth-of-type, first/last-of-type) com !important. */
   @media (max-width: 720px) {
     header { padding: 16px 20px !important; }
-    header span[style*="font-size:20px"] { font-size: 15px !important; }
-    header span[style*="font-size:10px"] { display: none !important; }
+    header > div:first-child > span:first-child { font-size: 15px !important; }
+    header > div:first-child > span:last-child { display: none !important; }
     header nav { gap: 14px !important; }
     header nav a:not(:last-child) { display: none !important; }
 
-    [style*="padding:130px 80px 110px"] { padding: 72px 20px 56px !important; }
+    header + section { padding: 72px 20px 56px !important; }
     h1 { font-size: 38px !important; }
-    [style*="grid-template-columns:repeat(3,1fr)"] { grid-template-columns: 1fr !important; }
+    header + section > div:last-of-type > div:last-of-type { grid-template-columns: 1fr !important; }
 
     #destaques { padding: 56px 20px !important; }
     #destaques > div:first-of-type { flex-direction: column !important; align-items: flex-start !important; gap: 14px !important; }
-    #destaques > div:first-of-type span[style*="text-align:right"] { text-align: left !important; max-width: none !important; }
+    #destaques > div:first-of-type > span { text-align: left !important; max-width: none !important; }
+    #destaques > div:nth-of-type(4) { grid-template-columns: 1fr !important; }
     #destaques h2 { font-size: 30px !important; }
 
     #tecnologia { grid-template-columns: 1fr !important; padding: 56px 20px !important; gap: 36px !important; }
