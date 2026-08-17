@@ -20,6 +20,35 @@
   a { color:#FF2C2C; text-decoration:none; }
   a:hover { color:#ff5c5c; }
   ::selection { background:#FF2C2C; color:#000; }
+
+  /* A página é toda em style inline (padding/grid fixos pra desktop), então essas
+     regras usam seletor de tag/id/substring de style pra sobrescrever com !important —
+     é o jeito de fazer responsivo sem reescrever cada atributo style do zero. */
+  @media (max-width: 720px) {
+    header { padding: 16px 20px !important; }
+    header span[style*="font-size:20px"] { font-size: 15px !important; }
+    header span[style*="font-size:10px"] { display: none !important; }
+    header nav { gap: 14px !important; }
+    header nav a:not(:last-child) { display: none !important; }
+
+    [style*="padding:130px 80px 110px"] { padding: 72px 20px 56px !important; }
+    h1 { font-size: 38px !important; }
+    [style*="grid-template-columns:repeat(3,1fr)"] { grid-template-columns: 1fr !important; }
+
+    #destaques { padding: 56px 20px !important; }
+    #destaques > div:first-of-type { flex-direction: column !important; align-items: flex-start !important; gap: 14px !important; }
+    #destaques > div:first-of-type span[style*="text-align:right"] { text-align: left !important; max-width: none !important; }
+    #destaques h2 { font-size: 30px !important; }
+
+    #tecnologia { grid-template-columns: 1fr !important; padding: 56px 20px !important; gap: 36px !important; }
+    #tecnologia h2 { font-size: 26px !important; }
+    #tecnologia > div:last-child { height: 220px !important; }
+
+    #contato { padding: 56px 20px !important; }
+    #contato h2 { font-size: 28px !important; }
+
+    footer { padding: 24px 20px !important; flex-direction: column !important; gap: 8px !important; text-align: center !important; }
+  }
 </style>
 </helmet>
 <div data-theme="dark" style="background:#000; color:#D3D3D3; font-family:Sora, sans-serif; min-height:100vh; overflow-x:hidden">
