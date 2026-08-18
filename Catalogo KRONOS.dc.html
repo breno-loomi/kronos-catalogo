@@ -195,7 +195,7 @@
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;headline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Todos os tênis, um só lugar&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;decryptMs&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1200,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;step&quot;:100,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;headline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Todos os tênis, um só lugar&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
 class Component extends DCLogic {
   constructor(p) {
     super(p);
@@ -203,7 +203,7 @@ class Component extends DCLogic {
     this.gridRef = React.createRef();
   }
   componentDidMount() {
-    this.runDecrypt(); this.hydrateImages();
+    this.applyHeadline(); this.hydrateImages();
     window.addEventListener('kronos:update', this.onStore);
     this._sync = () => { if (window.KronosStore) { const d = window.KronosStore.load(); this.setState({ products: d.products, phone: d.phone }); } };
     window.addEventListener('storage', this._sync);
@@ -223,31 +223,10 @@ class Component extends DCLogic {
     });
   }
 
-  runDecrypt() {
+  applyHeadline() {
     const el = this.titleRef.current;
     if (!el) return;
-    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const final = (this.props.headline ?? el.textContent).trim();
-    el.textContent = final;
-    if (reduced) return;
-
-    const dur = this.props.decryptMs ?? 1200;
-    const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/\\<>#*';
-    const start = performance.now();
-    const tick = (now) => {
-      const t = Math.min(1, (now - start) / dur);
-      const revealed = Math.floor(t * final.length);
-      let out = '';
-      for (let i = 0; i < final.length; i++) {
-        const c = final[i];
-        if (i < revealed || c === ' ') out += c;
-        else out += glyphs[(Math.random() * glyphs.length) | 0];
-      }
-      el.textContent = out;
-      if (t < 1) requestAnimationFrame(tick);
-      else el.textContent = final;
-    };
-    requestAnimationFrame(tick);
+    el.textContent = (this.props.headline ?? el.textContent).trim();
   }
 
   state = { avail: 'Pronta entrega', brand: 'Todas', picked: {}, products: (window.KronosStore ? window.KronosStore.load().products : []), phone: (window.KronosStore ? window.KronosStore.load().phone : '') };
