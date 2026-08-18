@@ -35,7 +35,6 @@
   @media (max-width: 720px) {
     header { padding: 16px 20px !important; }
     header > div:first-child > span:first-child { font-size: 15px !important; }
-    header > div:first-child > span:last-child { display: none !important; }
     header nav { gap: 14px !important; }
     header nav a:not(:last-child) { display: none !important; }
 
@@ -65,7 +64,6 @@
   <header style="position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between; padding:22px 80px; background:rgba(0,0,0,0.72); backdrop-filter:blur(24px); border-bottom:1px solid rgba(211,211,211,0.12)">
     <div style="display:flex; align-items:baseline; gap:12px">
       <span style="font-size:20px; font-weight:600; letter-spacing:0.18em; color:#F8F8F8">Cloud Sneakers</span>
-      <span style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(211,211,211,0.45)">Loja multimarcas</span>
     </div>
     <nav style="display:flex; align-items:center; gap:36px">
       <a href="#destaques" style="font-size:13px; letter-spacing:0.06em; color:#D3D3D3">Catálogo</a>
@@ -78,25 +76,25 @@
   <section style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:130px 80px 110px; gap:34px">
     <div style="position:absolute; inset:0; background:radial-gradient(60% 50% at 50% 30%, rgba(255,44,44,0.14), transparent 70%); pointer-events:none"></div>
     <div style="position:relative; display:flex; flex-direction:column; align-items:center; gap:34px; max-width:1000px">
-      <span style="font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#FF2C2C">Loja multimarcas · corrida, treino e lifestyle</span>
+      <span style="font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#FF2C2C">Corrida, treino e lifestyle</span>
       <h1 ref="{{ titleRef }}" style="margin:0; font-size:92px; line-height:1.02; font-weight:200; letter-spacing:-0.04em; color:#F8F8F8; text-wrap:balance">Todos os tênis, um só lugar</h1>
-      <p style="margin:0; max-width:600px; font-size:17px; line-height:1.65; font-weight:300; color:rgba(211,211,211,0.7); text-wrap:pretty">Modelos de performance, treino e uso diário das principais marcas. Estoque real, numeração conferida e envio em até 48h.</p>
+      <p style="margin:0; max-width:600px; font-size:17px; line-height:1.65; font-weight:300; color:rgba(211,211,211,0.7); text-wrap:pretty">Modelos de performance, treino e uso diário das principais marcas. Estoque real, numeração conferida e envio em até 24h.</p>
       <div style="display:flex; gap:14px; margin-top:6px">
         <a href="#destaques" style="font-size:14px; font-weight:500; letter-spacing:0.04em; color:#000; background:#FF2C2C; padding:15px 34px; border-radius:6px" style-hover="background:#ff4747">Comprar agora</a>
         <a href="#destaques" style="font-size:14px; font-weight:400; letter-spacing:0.04em; color:#D3D3D3; border:1px solid rgba(211,211,211,0.28); padding:15px 34px; border-radius:6px" style-hover="border-color:rgba(211,211,211,0.6); color:#fff">Ver catálogo</a>
       </div>
       <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(211,211,211,0.14); border:1px solid rgba(211,211,211,0.14); border-radius:10px; overflow:hidden; margin-top:44px; width:100%; max-width:840px">
         <div style="background:#000; padding:26px 28px; display:flex; flex-direction:column; gap:8px; text-align:left">
-          <span style="font-size:26px; font-weight:200; color:#F8F8F8">12 marcas</span>
+          <span style="font-size:26px; font-weight:200; color:#F8F8F8">4 marcas</span>
           <span style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(211,211,211,0.5)">Catálogo oficial</span>
         </div>
         <div style="background:#000; padding:26px 28px; display:flex; flex-direction:column; gap:8px; text-align:left">
-          <span style="font-size:26px; font-weight:200; color:#F8F8F8">48h</span>
+          <span style="font-size:26px; font-weight:200; color:#F8F8F8">24h</span>
           <span style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(211,211,211,0.5)">Envio para todo o Brasil</span>
         </div>
         <div style="background:#000; padding:26px 28px; display:flex; flex-direction:column; gap:8px; text-align:left">
-          <span style="font-size:26px; font-weight:200; color:#F8F8F8">30 dias</span>
-          <span style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(211,211,211,0.5)">Troca de numeração</span>
+          <span style="font-size:26px; font-weight:200; color:#F8F8F8">60 dias</span>
+          <span style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(211,211,211,0.5)">Garantia</span>
         </div>
       </div>
     </div>
@@ -168,11 +166,11 @@
     <div style="display:flex; flex-direction:column; gap:22px">
       <span style="font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#FF2C2C">A loja</span>
       <h2 style="margin:0; font-size:42px; font-weight:200; letter-spacing:-0.03em; color:#F8F8F8; text-wrap:balance">Curadoria de marca, não vitrine de estoque</h2>
-      <p style="margin:0; font-size:15px; line-height:1.7; font-weight:300; color:rgba(211,211,211,0.68); text-wrap:pretty">Trabalhamos com doze marcas de corrida, treino e uso diário. Cada modelo entra no catálogo depois de teste em pista, e a equipe indica o par certo pelo seu tipo de pisada e quilometragem semanal.</p>
+      <p style="margin:0; font-size:15px; line-height:1.7; font-weight:300; color:rgba(211,211,211,0.68); text-wrap:pretty">Trabalhamos com quatro marcas de corrida, treino e uso diário. Cada modelo entra no catálogo depois de teste em pista, e a equipe indica o par certo pelo seu tipo de pisada e quilometragem semanal.</p>
       <div style="display:flex; flex-direction:column; gap:1px; background:rgba(211,211,211,0.14); border-top:1px solid rgba(211,211,211,0.14); border-bottom:1px solid rgba(211,211,211,0.14); margin-top:12px">
-        <div style="background:#000; display:flex; justify-content:space-between; padding:18px 2px; font-size:14px; font-weight:300"><span style="color:rgba(211,211,211,0.55)">Marcas no catálogo</span><span style="color:#F8F8F8">12</span></div>
+        <div style="background:#000; display:flex; justify-content:space-between; padding:18px 2px; font-size:14px; font-weight:300"><span style="color:rgba(211,211,211,0.55)">Marcas no catálogo</span><span style="color:#F8F8F8">4</span></div>
         <div style="background:#000; display:flex; justify-content:space-between; padding:18px 2px; font-size:14px; font-weight:300"><span style="color:rgba(211,211,211,0.55)">Numerações</span><span style="color:#F8F8F8">36 ao 45</span></div>
-        <div style="background:#000; display:flex; justify-content:space-between; padding:18px 2px; font-size:14px; font-weight:300"><span style="color:rgba(211,211,211,0.55)">Troca de numeração</span><span style="color:#F8F8F8">30 dias</span></div>
+        <div style="background:#000; display:flex; justify-content:space-between; padding:18px 2px; font-size:14px; font-weight:300"><span style="color:rgba(211,211,211,0.55)">Garantia</span><span style="color:#F8F8F8">60 dias</span></div>
       </div>
     </div>
     <div style="position:relative; height:460px; border-radius:16px; overflow:hidden; border:1px solid rgba(211,211,211,0.16)">
@@ -317,7 +315,7 @@ class Component extends DCLogic {
     }));
 
     const note = avail === 'Pronta entrega'
-      ? 'Em estoque agora. Envio em até 48h para todo o Brasil.'
+      ? 'Em estoque agora. Envio em até 24h para todo o Brasil.'
       : 'Encomenda internacional. Prazo de 15 a 30 dias, com pagamento em duas etapas.';
 
     return { titleRef: this.titleRef, gridRef: this.gridRef, list, tabs, brands, note, empty: list.length === 0 };
