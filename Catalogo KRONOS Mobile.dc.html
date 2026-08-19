@@ -141,7 +141,7 @@
           <h2 style="margin:0; font-size:28px; font-weight:200; letter-spacing:-0.03em; color:#F8F8F8; text-wrap:balance">Não achou o modelo? A gente procura</h2>
           <p style="margin:0; font-size:13px; line-height:1.65; font-weight:300; color:rgba(211,211,211,0.65)">Consulte numeração, encomende um modelo fora do catálogo ou negocie pedidos de equipe.</p>
           <div style="display:flex; flex-direction:column; gap:10px; width:100%; margin-top:6px">
-            <a href="#m-contato" style="font-size:14px; font-weight:500; text-align:center; color:#000; background:#FF2C2C; padding:15px 0; border-radius:8px">WhatsApp</a>
+            <a href="{{ contactWaHref }}" target="_blank" rel="noopener" style="font-size:14px; font-weight:500; text-align:center; color:#000; background:#FF2C2C; padding:15px 0; border-radius:8px">WhatsApp</a>
             <a href="#m-catalogo" style="font-size:14px; font-weight:400; text-align:center; color:#D3D3D3; border:1px solid rgba(211,211,211,0.28); padding:15px 0; border-radius:8px">Voltar ao catálogo</a>
           </div>
         </section>
@@ -259,7 +259,11 @@ class Component extends DCLogic {
       ? 'Em estoque agora. Envio em até 24h para todo o Brasil.'
       : 'Encomenda internacional. Prazo de 15 a 30 dias, com pagamento em duas etapas.';
 
-    return { titleRef: this.titleRef, gridRef: this.gridRef, list, tabs, brands, note,
+    const contactWaHref = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(
+      'Olá! Não achei o modelo que eu queria no catálogo — vocês conseguem encomendar?'
+    );
+
+    return { titleRef: this.titleRef, gridRef: this.gridRef, list, tabs, brands, note, contactWaHref,
       empty: list.length === 0, deviceW: 440, deviceH: 956 };
   }
 }

@@ -183,8 +183,8 @@
     <h2 style="margin:0; font-size:44px; font-weight:200; letter-spacing:-0.03em; color:#F8F8F8; max-width:640px; text-wrap:balance">Não achou o modelo? A gente procura</h2>
     <p style="margin:0; max-width:520px; font-size:15px; line-height:1.7; font-weight:300; color:rgba(211,211,211,0.65)">Fale com a equipe para consultar numeração, encomendar um modelo fora do catálogo ou negociar pedidos de equipe.</p>
     <div style="display:flex; gap:14px; margin-top:8px">
-      <a href="#contato" style="font-size:14px; font-weight:500; color:#000; background:#FF2C2C; padding:15px 34px; border-radius:6px" style-hover="background:#ff4747">Comprar agora</a>
-      <a href="#contato" style="font-size:14px; font-weight:400; color:#D3D3D3; border:1px solid rgba(211,211,211,0.28); padding:15px 34px; border-radius:6px" style-hover="border-color:rgba(211,211,211,0.6); color:#fff">WhatsApp</a>
+      <a href="#destaques" style="font-size:14px; font-weight:500; color:#000; background:#FF2C2C; padding:15px 34px; border-radius:6px" style-hover="background:#ff4747">Comprar agora</a>
+      <a href="{{ contactWaHref }}" target="_blank" rel="noopener" style="font-size:14px; font-weight:400; color:#D3D3D3; border:1px solid rgba(211,211,211,0.28); padding:15px 34px; border-radius:6px" style-hover="border-color:rgba(211,211,211,0.6); color:#fff">WhatsApp</a>
     </div>
   </section>
 
@@ -297,7 +297,11 @@ class Component extends DCLogic {
       ? 'Em estoque agora. Envio em até 24h para todo o Brasil.'
       : 'Encomenda internacional. Prazo de 15 a 30 dias, com pagamento em duas etapas.';
 
-    return { titleRef: this.titleRef, gridRef: this.gridRef, list, tabs, brands, note, empty: list.length === 0 };
+    const contactWaHref = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(
+      'Olá! Não achei o modelo que eu queria no catálogo — vocês conseguem encomendar?'
+    );
+
+    return { titleRef: this.titleRef, gridRef: this.gridRef, list, tabs, brands, note, contactWaHref, empty: list.length === 0 };
   }
 }
 </script>
