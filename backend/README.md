@@ -113,21 +113,23 @@ atribuição, não um incremento relativo.
 `POST /api/admin/uploads` valida o tipo pelos primeiros bytes do arquivo (magic number: JPEG
 `FF D8 FF`, PNG, RIFF/WEBP), não pela extensão. Redimensiona para no máximo 1200px de largura
 com `sharp` (sem ampliar imagens menores). O storage é escolhido em runtime por
-`createImageStorage()` (`src/infra/storage/create-image-storage.ts`): se as cinco variáveis
-`R2_*` estiverem preenchidas usa **Cloudflare R2**, senão cai pro disco local
+`createImageStorage()` (`src/infra/storage/create-image-storage.ts`): se as três variáveis
+`SUPABASE_*` estiverem preenchidas usa **Supabase Storage**, senão cai pro disco local
 (`LocalDiskImageStorage`) — bom pra dev, mas não sobrevive a deploy/restart na maioria dos
-free tiers de hospedagem (disco efêmero). **Em produção, use R2** (ou outro S3-compatível):
+free tiers de hospedagem (disco efêmero). **Em produção, use Supabase Storage**:
 
-1. No dashboard da Cloudflare → R2 → crie um bucket.
-2. No bucket, em **Settings**, ative **Public Access** (usa o subdomínio `pub-*.r2.dev`, ou
-   conecte um domínio custom seu) — copie essa URL pública.
-3. Em **R2 → Manage API tokens**, crie um token com permissão de leitura/escrita nesse bucket
-   — copia o **Access Key ID** e o **Secret Access Key**.
-4. O **Account ID** aparece na barra lateral do dashboard da Cloudflare.
-5. Preencha no `.env` (ou nas variáveis de ambiente da hospedagem):
-   `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, `R2_PUBLIC_URL`.
+1. Crie um projeto em [supabase.com](https://supabase.com) (free tier, sem cartão).
+2. No painel do projeto → **Storage** → **Create a new bucket**. Marque **Public bucket**.
+3. Em **Project Settings → API**, copie a **Project URL** e a **service_role key** (não a
+   `anon`/`public` — a service role bypassa as políticas de RLS, necessário pro backend
+   gravar arquivos).
+4. Preencha no `.env` (ou nas variáveis de ambiente da hospedagem):
+   `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_BUCKET` (o nome do bucket criado).
 
-Pra usar outro provedor S3-compatível, implemente `ImageStorage`
+A `service_role key` dá acesso total ao projeto — trate como uma senha de banco, nunca a
+exponha no front-end.
+
+Pra usar outro provedor (S3, R2 etc.), implemente `ImageStorage`
 (`src/application/ports/image-storage.ts`) e troque a instância em `createImageStorage()` —
 nenhum use-case muda.
 
