@@ -11,6 +11,13 @@ const EnvSchema = z.object({
   COOKIE_NAME: z.string().default('kronos_session'),
   UPLOAD_DIR: z.string().default('./uploads'),
   PUBLIC_UPLOAD_BASE_URL: z.string().default('/uploads'),
+  // R2 (S3-compatible) — opcional. Se as cinco vierem preenchidas, o bootstrap usa
+  // R2ImageStorage em vez de disco local; senão cai no disco local (bom pra dev).
+  R2_ACCOUNT_ID: z.string().optional(),
+  R2_ACCESS_KEY_ID: z.string().optional(),
+  R2_SECRET_ACCESS_KEY: z.string().optional(),
+  R2_BUCKET: z.string().optional(),
+  R2_PUBLIC_URL: z.string().optional(),
 });
 
 export type Env = z.infer<typeof EnvSchema> & { corsOrigins: string[] };

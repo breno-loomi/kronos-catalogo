@@ -1,18 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import sharp from 'sharp';
 import type { ImageStorage, StoredImage } from '../../application/ports/image-storage';
 import type { ImageMimeType } from '../../domain/services/image-type';
+import { EXTENSION_BY_MIME } from './extension-by-mime';
+import { resizeForUpload } from './resize-for-upload';
 
-const EXTENSION_BY_MIME: Record<ImageMimeType, string> = {
-  'image/jpeg': '.jpg',
-  'image/png': '.png',
-  'image/webp': '.webp',
-};
-
-const MAX_WIDTH_PX = 1200;
-
+/** Disco local — só sobrevive em dev ou atrás de um volume persistente de verdade
+ * (a maioria dos free tiers de hospedagem tem disco efêmero: some a cada deploy). */
 export class LocalDiskImageStorage implements ImageStorage {
   constructor(
     private readonly uploadDir: string,
@@ -22,11 +17,7 @@ export class LocalDiskImageStorage implements ImageStorage {
   async save(buffer: Buffer, mimeType: ImageMimeType): Promise<StoredImage> {
     await mkdir(this.uploadDir, { recursive: true });
 
-    const resized = await sharp(buffer)
-      .rotate() // aplica a orientação EXIF antes de descartar os metadados
-      .resize({ width: MAX_WIDTH_PX, withoutEnlargement: true })
-      .toBuffer();
-
+    const resized = await resizeForUpload(buffer);
     const filename = `${randomUUID()}${EXTENSION_BY_MIME[mimeType]}`;
     await writeFile(path.join(this.uploadDir, filename), resized);
 

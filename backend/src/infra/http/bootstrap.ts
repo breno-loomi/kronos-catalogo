@@ -6,7 +6,7 @@ import { PrismaProductRepository } from '../db/prisma-product.repository';
 import { PrismaSettingsRepository } from '../db/prisma-settings.repository';
 import { Argon2PasswordHasher } from '../security/argon2-password-hasher';
 import { JwtSessionTokenService } from '../security/jwt-session';
-import { LocalDiskImageStorage } from '../storage/local-disk.image-storage';
+import { createImageStorage } from '../storage/create-image-storage';
 import { buildServer } from './server';
 
 async function main() {
@@ -20,7 +20,7 @@ async function main() {
     adminRepository: new PrismaAdminRepository(prisma),
     passwordHasher: new Argon2PasswordHasher(),
     sessionTokens: new JwtSessionTokenService(env.JWT_SECRET, env.JWT_EXPIRES_IN),
-    imageStorage: new LocalDiskImageStorage(env.UPLOAD_DIR, env.PUBLIC_UPLOAD_BASE_URL),
+    imageStorage: createImageStorage(env),
   });
 
   const shutdown = async () => {

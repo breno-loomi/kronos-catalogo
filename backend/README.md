@@ -112,9 +112,24 @@ atribuição, não um incremento relativo.
 
 `POST /api/admin/uploads` valida o tipo pelos primeiros bytes do arquivo (magic number: JPEG
 `FF D8 FF`, PNG, RIFF/WEBP), não pela extensão. Redimensiona para no máximo 1200px de largura
-com `sharp` (sem ampliar imagens menores) e salva em disco (`LocalDiskImageStorage`). Para
-produção, implemente `ImageStorage` (`src/application/ports/image-storage.ts`) apontando pra
-S3/R2 e troque a instância montada em `src/infra/http/bootstrap.ts` — nenhum use-case muda.
+com `sharp` (sem ampliar imagens menores). O storage é escolhido em runtime por
+`createImageStorage()` (`src/infra/storage/create-image-storage.ts`): se as cinco variáveis
+`R2_*` estiverem preenchidas usa **Cloudflare R2**, senão cai pro disco local
+(`LocalDiskImageStorage`) — bom pra dev, mas não sobrevive a deploy/restart na maioria dos
+free tiers de hospedagem (disco efêmero). **Em produção, use R2** (ou outro S3-compatível):
+
+1. No dashboard da Cloudflare → R2 → crie um bucket.
+2. No bucket, em **Settings**, ative **Public Access** (usa o subdomínio `pub-*.r2.dev`, ou
+   conecte um domínio custom seu) — copie essa URL pública.
+3. Em **R2 → Manage API tokens**, crie um token com permissão de leitura/escrita nesse bucket
+   — copia o **Access Key ID** e o **Secret Access Key**.
+4. O **Account ID** aparece na barra lateral do dashboard da Cloudflare.
+5. Preencha no `.env` (ou nas variáveis de ambiente da hospedagem):
+   `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, `R2_PUBLIC_URL`.
+
+Pra usar outro provedor S3-compatível, implemente `ImageStorage`
+(`src/application/ports/image-storage.ts`) e troque a instância em `createImageStorage()` —
+nenhum use-case muda.
 
 ## Notas de deploy
 
@@ -125,9 +140,10 @@ S3/R2 e troque a instância montada em `src/infra/http/bootstrap.ts` — nenhum 
 - `npm run build && npm start` compila pra `dist/` e roda com Node puro. Em produção, `start`
   já roda `prisma migrate deploy` antes de subir o servidor — não precisa de um passo extra
   separado.
-- `npm audit` acusa uma cadeia `vitest → vite → esbuild` (dev-only, servidor de teste local,
-  não é executado em produção); atualizar exige subir pro Vitest 4, deixado fora de escopo
-  aqui.
+- `npm audit` acusa duas cadeias, ambas só em devDependencies (não vão pro `dist/` nem rodam
+  em produção): `vitest → vite → esbuild` (servidor de teste local; corrigir exige subir pro
+  Vitest 4) e `prisma → @prisma/config → deepmerge-ts` (só usada pelo CLI do Prisma). Deixado
+  fora de escopo aqui.
 
 ### Deploy no Railway
 
