@@ -184,14 +184,23 @@
       <div ref="{{ listRef }}" style="display:flex; flex-direction:column; gap:14px">
         <sc-for list="{{ rows }}" as="p" hint-placeholder-count="0">
           <article style="display:grid; grid-template-columns:96px 1fr; gap:22px; padding:20px; border:1px solid rgba(211,211,211,0.16); border-radius:18px; background:#050505">
-            <div style="width:96px; height:96px; border-radius:12px; overflow:hidden; background:#f2f2f2; display:flex; align-items:center; justify-content:center">
+            <label style="position:relative; width:96px; height:96px; border-radius:12px; overflow:hidden; background:#f2f2f2; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.88">
               <sc-if value="{{ p.hasImg }}" hint-placeholder-val="{{ false }}">
                 <img data-src="{{ p.img }}" alt="{{ p.alt }}" style="width:100%; height:100%; object-fit:cover; display:block">
               </sc-if>
               <sc-if value="{{ p.noImg }}" hint-placeholder-val="{{ false }}">
                 <span style="font-size:8px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(12,9,18,0.35); text-align:center">Sem foto</span>
               </sc-if>
-            </div>
+              <sc-if value="{{ p.uploading }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.7)">
+                  <span style="font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:#F8F8F8; text-align:center">Enviando…</span>
+                </div>
+              </sc-if>
+              <div style="position:absolute; left:0; right:0; bottom:0; padding:4px 0; background:rgba(0,0,0,0.6); text-align:center">
+                <span style="font-size:7px; letter-spacing:0.1em; text-transform:uppercase; color:#F8F8F8">Trocar foto</span>
+              </div>
+              <input type="file" accept="image/jpeg,image/png,image/webp" onChange="{{ p.onPhotoFile }}" style="display:none">
+            </label>
             <div style="display:flex; flex-direction:column; gap:14px; min-width:0">
               <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:20px">
                 <div style="display:flex; flex-direction:column; gap:5px; min-width:0">
@@ -264,6 +273,7 @@ class Component extends DCLogic {
       loginError: '',
       loginBusy: false,
       photoBusy: false,
+      photoUploadingId: null,
       // O load() inicial devolve o cache local synco (que pode ter ids antigos) e busca a
       // versão real da API em paralelo. Enquanto essa primeira sincronização não termina,
       // nenhuma mutação pode sair — senão o diff do save() compara contra ids que já não
@@ -336,6 +346,23 @@ class Component extends DCLogic {
       })
       .catch((err) => {
         this.setState({ photoBusy: false, status: (err && err.message) || 'Falha ao enviar a foto.', statusOk: false });
+      });
+  };
+
+  handleRowPhotoFile = (id, e) => {
+    const S = window.KronosStore;
+    const file = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!S || !file || !this.state.catalogLoaded) return;
+    this.setState({ photoUploadingId: id, status: '' });
+    S.uploadImage(file)
+      .then((result) => {
+        const products = this.state.products.map(p => p.id === id ? Object.assign({}, p, { img: result.url }) : p);
+        this.setState({ photoUploadingId: null });
+        this.persist(products);
+      })
+      .catch((err) => {
+        this.setState({ photoUploadingId: null, status: (err && err.message) || 'Falha ao enviar a foto.', statusOk: false });
       });
   };
 
@@ -424,6 +451,8 @@ class Component extends DCLogic {
         id: p.id, name: p.name, meta: p.brand + ' · ' + p.cat,
         priceLabel: S.brl(p.price), alt: p.brand + ' ' + p.name,
         hasImg: !!p.img, noImg: !p.img, img: p.img ? encodeURI(p.img) : '',
+        uploading: this.state.photoUploadingId === p.id,
+        onPhotoFile: (e) => this.handleRowPhotoFile(p.id, e),
         totalLabel: p.avail === 'Por encomenda' ? 'Por encomenda' : (total > 0 ? total + ' pares' : 'Sem estoque'),
         stockColor: p.avail === 'Por encomenda' ? 'rgba(211,211,211,0.5)' : (total > 0 ? 'rgba(211,211,211,0.6)' : '#FF2C2C'),
         remove: () => this.removeProduct(p.id),
